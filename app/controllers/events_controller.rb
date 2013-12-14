@@ -31,7 +31,7 @@ class EventsController < ApplicationController
 
 	def join_event
 		UserToEvent.create({ :user_id => session[:user_id], :event_id => session[:event_id]})
-		redirect_to "/events/" + Event.find(session[:event_id]).event_hash
+		redirect_to "/event/" + Event.find(session[:event_id]).event_hash
 	end
 
 	def start_event
@@ -45,8 +45,13 @@ class EventsController < ApplicationController
 		UserToEvent.where("event_id = ? AND user_id = ?", session[:event_id], @users.last).update_attributes(:receiver_id => @users.first)
 		Event.find(session[:event_id]).update_attributes(:has_started => true, :status => "started")
 #redirect to ceva?
-		redirect_to "/events/" + Event.find(session[:event_id]).event_hash
+		redirect_to "/event/" + Event.find(session[:event_id]).event_hash
 	end
+
+	def stop_event
+		Event.find(session[:event_id]).update_attributes(:status => "finished")
+		redirect_to "/event/" + Event.find(session[:event_id]).event_hash
+	end	
 
   # GET /events/new
   def new

@@ -1,5 +1,10 @@
 SecretSanta::Application.routes.draw do
-	get '/events/:event_hash', to: 'events#show'
+	get '/event/:event_hash', to: 'events#show'
+	get '/event/:event_hash/join_event', to: 'events#join_event'
+	get '/event/:event_hash/start_event', to: 'events#start_event'
+	get '/event/:event_hash/stop_event', to: 'events#stop_event'
+
+	get '/user/log_out', to: 'users#log_out'
 
   resources :users
 

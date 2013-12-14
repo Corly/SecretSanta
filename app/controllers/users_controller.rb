@@ -57,7 +57,7 @@ class UsersController < ApplicationController
 		@user = User.find(session[:user_id])
 		hash = SecureRandom.hex(8)
 		@user.events.create({ :event_hash => hash, :status => "created", :start_date => Time.now, :end_date => nil, :money_limit => 0, :host_id => @user.id, :has_started => false})
-		redirect_to "/events/" + hash
+		redirect_to "/event/" + hash
 #		session[:user_id] suuper! :)	
 	end
 
@@ -76,6 +76,11 @@ class UsersController < ApplicationController
       end
     end
   end
+
+	def log_out
+		session[:user_id] = nil
+		redirect_to "/users"
+	end
 
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
