@@ -29,7 +29,13 @@ class UsersController < ApplicationController
 
 	def create_from_facebook
 	  oauth_hash = request.env['omniauth.auth']
-	  auth_token = oauth_hash["credentials"]["token"]
+
+		auth_token = oauth_hash["credentials"]["token"]
+		uid = oauth_hash["uid"]
+		name = oauth_hash["info"]["name"]
+		email = oauth_hash["info"]["email"]
+
+		@user = User.create({:email => email, :auth_token => auth_token, :uid => uid, :name => name})
 
     # raise .inspect.to_s
 	end
