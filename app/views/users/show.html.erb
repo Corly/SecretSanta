@@ -25,6 +25,14 @@
 	<%= @events.each do |event| %>
 		<li><%= event.id %></li>
 	<% end %>
+</p>
+
+<p>
+	<strong>Friends</strong>
+	<%= @friends.each do |friend| %>
+		<li><%= friend %></li>
+	<% end %>
+</p>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

@@ -1,6 +1,11 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
 
+	def start_event
+		@event = Event.find(session[:event_id])
+	end
+
+
   # GET /events
   # GET /events.json
   def index
@@ -10,6 +15,7 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
+		@event = Event.find_by_event_hash(params[:event_hash])
   end
 
   # GET /events/new
@@ -28,6 +34,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
+				session[:event_id] = @event.id
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render action: 'show', status: :created, location: @event }
       else
@@ -64,7 +71,7 @@ class EventsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_event
-      @event = Event.find(params[:id])
+      @event = Event.find_by_event_hash(params[:event_hash])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

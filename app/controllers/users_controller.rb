@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
+	require 'securerandom'
+
   # GET /users
   # GET /users.json
   def index
@@ -11,6 +13,7 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
 		@events = User.find(session[:user_id]).events
+		@friends = friends()
   end
 
   # GET /users/new
@@ -23,9 +26,10 @@ class UsersController < ApplicationController
   end
 
 	def friends
-	  user = User.find(params[:id])
+	  user = User.find(session[:user_id])
 		@graph = Koala::Facebook::API.new(user.auth_token)
 		friends = @graph.get_connections("me", "friends")
+		return friends
 	end
 
 	def create_from_facebook
@@ -51,7 +55,8 @@ class UsersController < ApplicationController
 
 	def create_new_event
 		@user = User.find(session[:user_id])
-		@user.events.create({ :start_date => Time.now, :end_date => nil, :money_limit => 0, :host_id => @user.id, :has_started => false})
+		hash = SecureRandom.hex(8)
+		@user.events.create({ :event_hash => hash, :start_date => Time.now, :end_date => nil, :money_limit => 0, :host_id => @user.id, :has_started => false})
 #		session[:user_id] suuper! :)	
 	end
 

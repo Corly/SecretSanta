@@ -1,4 +1,6 @@
 SecretSanta::Application.routes.draw do
+	get '/events/:event_hash', to: 'events#show'
+
   resources :users
 
   resources :events
