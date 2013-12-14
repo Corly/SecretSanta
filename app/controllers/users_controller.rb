@@ -35,9 +35,23 @@ class UsersController < ApplicationController
 		name = oauth_hash["info"]["name"]
 		email = oauth_hash["info"]["email"]
 
-		@user = User.create({:email => email, :auth_token => auth_token, :uid => uid, :name => name})
+		if (User.where("uid = ?", uid).empty?)
+			@user = User.create({:email => email, :auth_token => auth_token, :uid => uid, :name => name})
+			session[:user_id] = @user.id
+			redirect_to "/users"
+		else
+			session[:user_id] = User.find(:first, :conditions => ["uid = ?", uid])
+			redirect_to "/users"
+# give something back
+		end
 
     # raise .inspect.to_s
+	end
+
+	def create_new_event
+		@user = User.find(session[:user_id])
+		@user.events.create({ :start_date => Time.now, :end_date => nil, :money_limit => 0, :host_id => @user.id, :has_started => false})
+#		session[:user_id] suuper! :)	
 	end
 
   # POST /users

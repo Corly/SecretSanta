@@ -4,6 +4,7 @@ SecretSanta::Application.routes.draw do
   resources :events
 
 	get '/auth/:provider/callback', to: 'users#create_from_facebook'
+	get '/create_event', to: 'users#create_new_event'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
