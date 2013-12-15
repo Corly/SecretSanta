@@ -17,13 +17,11 @@
 -->
 
 <p>
-  <strong>Recommended gift price</strong>
-  <%= @event.money_limit %>
+  Recommended gift price is <%= @event.money_limit %>€
 </p>
 
 <p>
-  <strong>Host:</strong>
-  <%= @event.host_id %> - <%= User.find(@event.host_id).name %>
+  Organized by <%= User.find(@event.host_id).name %>
 </p>
 
 <p>
@@ -37,7 +35,9 @@
     <% end %>
 </ul>
 
-<a class="pure-button" href="/event/<%= @event.event_hash %>/start_event">Start event</a>
+<% if not @event.has_started and @current_user.id == @event.host_id %>
+    <a class="pure-button" href="/event/<%= @event.event_hash %>/start_event">Start event</a>
+<% end %>
 
 <% unless @participants.include? @current_user %>
     <a class="pure-button" href="/event/<%= @event.event_hash %>/join_event">Join event</a>
