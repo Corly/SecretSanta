@@ -99,7 +99,6 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1.json
   def update
     respond_to do |format|
-			logger.debug @event.money_limit
       if Event.find(session[:event_id]).update(event_params)
         format.html { redirect_to "/event/" + Event.find(session[:event_id]).event_hash, notice: 'Event was successfully updated.' }
         format.json { head :no_content }

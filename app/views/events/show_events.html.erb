@@ -1,5 +1,5 @@
 <h1> List of your events </h1>
 
 <% @events.each do |event| %>
-    <a href="event/<%= event.event_hash %>"><%= event.id %></a>
+    <a href="/event/<%= event.event_hash %>"><%= event.id %></a>
 <% end %>

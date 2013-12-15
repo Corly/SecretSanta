@@ -43,6 +43,10 @@
     <a class="pure-button" href="/event/<%= @event.event_hash %>/join_event">Join event</a>
 <% end %>
 
+<% if @event.has_started %>
+    <p>Receiver: <%= @receiver.name %></p>
+<% end %>
+
 <p>
     Currently logged in: <%= @current_user.name %>
 </p>
