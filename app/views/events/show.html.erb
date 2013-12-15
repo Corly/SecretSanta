@@ -1,5 +1,4 @@
-<p id="notice"><%= notice %></p>
-
+<!--
 <p>
   <strong>Start date:</strong>
   <%= @event.start_date %>
@@ -15,14 +14,16 @@
   <%= @event.status %>
 </p>
 
+-->
+
 <p>
-  <strong>Money limit:</strong>
+  <strong>Recommended gift price</strong>
   <%= @event.money_limit %>
 </p>
 
 <p>
   <strong>Host:</strong>
-  <%= @event.host_id %>
+  <%= @event.host_id %> - <%= User.find(@event.host_id).name %>
 </p>
 
 <p>
@@ -30,5 +31,4 @@
   <%= @event.has_started %>
 </p>
 
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+<a class="pure-button" href="/event/<%= @event.event_hash %>/start_event">Start event</a>
