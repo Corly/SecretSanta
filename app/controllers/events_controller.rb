@@ -21,6 +21,7 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
+		@current_user = User.find(session[:user_id])
 		@event = Event.find_by_event_hash(params[:event_hash])
 		@participants = @event.users
 		session[:event_id] = @event.id
@@ -38,8 +39,10 @@ class EventsController < ApplicationController
   end
 
 	def join_event
-		UserToEvent.create({ :user_id => session[:user_id], :event_id => session[:event_id]})
-		redirect_to "/event/" + Event.find(session[:event_id]).event_hash
+		unless Event.find(session[:event_id]).users.include?(session[:user_id])
+			UserToEvent.create({ :user_id => session[:user_id], :event_id => session[:event_id]})
+			redirect_to "/event/" + Event.find(session[:event_id]).event_hash
+		end
 	end
 
 	def start_event
