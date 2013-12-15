@@ -8,7 +8,10 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-		session[:url] = '/'
+		if session[:url] == nil
+			session[:url] = '/'
+		end
+
 		if session[:user_id] == nil
 			redirect_to "/auth/facebook"	
 		end
@@ -21,13 +24,13 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
-		@current_user = User.find(session[:user_id])
 		@event = Event.find_by_event_hash(params[:event_hash])
 		@participants = @event.users
 		session[:event_id] = @event.id
 		if (session[:user_id] == nil) 
 			session[:url] = request.original_url
 			redirect_to '/'
+			return
 			#render==redirect login page
 			#save url
 		else
@@ -36,6 +39,8 @@ class EventsController < ApplicationController
 				@is_host = true
 			end
 		end
+
+		@current_user = User.find(session[:user_id])
   end
 
 	def join_event
