@@ -1,6 +1,8 @@
 <h1>Event details</h1>
 
-<%= form_for(@event) do |f| %>
+<p> <%= @event.id %> </p>
+
+<%= form_for @event do |f| %>
 	<%= f.label :name %>
 	<%= f.text_field :name %>
 

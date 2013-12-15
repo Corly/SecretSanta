@@ -4,6 +4,7 @@ SecretSanta::Application.routes.draw do
 	get '/event/:event_hash/start_event', to: 'events#start_event'
 	get '/event/:event_hash/stop_event', to: 'events#stop_event'
 	get '/event/:event_hash/edit', to: 'events#edit'
+	put '/event/:event_hash/update', to: 'events#update'
 	get '/events', to: 'events#show_events'
 
 	get '/user/log_out', to: 'users#log_out'
