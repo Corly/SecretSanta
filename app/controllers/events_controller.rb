@@ -25,13 +25,14 @@ class EventsController < ApplicationController
 		@participants = @event.users
 		session[:event_id] = @event.id
 		if (session[:user_id] == nil) 
+			session[:url] = request.original_url
+			redirect_to '/'
 			#render==redirect login page
 			#save url
-		else 
+		else
+			@is_host = false
 			if (session[:user_id] == @event.host_id)
-				#render==redirect host page
-			else
-				#render==redirect participant page
+				@is_host = true
 			end
 		end
   end
