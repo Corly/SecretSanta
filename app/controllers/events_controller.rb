@@ -22,6 +22,7 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
 		@event = Event.find_by_event_hash(params[:event_hash])
+		@participants = @event.users
 		session[:event_id] = @event.id
 		if (session[:user_id] == nil) 
 			#render==redirect login page
