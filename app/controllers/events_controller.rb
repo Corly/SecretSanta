@@ -39,7 +39,7 @@ class EventsController < ApplicationController
   end
 
 	def join_event
-		unless Event.find(session[:event_id]).users.include?(session[:user_id])
+		unless Event.find(session[:event_id]).users.include?(User.find(session[:user_id]))
 			UserToEvent.create({ :user_id => session[:user_id], :event_id => session[:event_id]})
 			redirect_to "/event/" + Event.find(session[:event_id]).event_hash
 		end
