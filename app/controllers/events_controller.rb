@@ -1,10 +1,6 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
 
-	def start_event
-		@event = Event.find(session[:event_id])
-	end
-
   # GET /events
   # GET /events.json
   def index
@@ -41,7 +37,7 @@ class EventsController < ApplicationController
 		end
 
 		@current_user = User.find(session[:user_id])
-		@receiver = User.find(UserToEvent.where("event_id = ? AND user_id = ?", session[:event_id, session[:user_id]).first.receiver_id)
+		@receiver = User.find(UserToEvent.where("event_id = ? AND user_id = ?", session[:event_id], session[:user_id]).first.receiver_id)
   end
 
 	def join_event
