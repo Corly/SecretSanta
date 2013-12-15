@@ -1,37 +1,5 @@
-<h1>Listing events</h1>
+<h1>Start Page - Secret Santa</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Start date</th>
-      <th>End date</th>
-      <th>Status</th>
-      <th>Money limit</th>
-      <th>Host</th>
-      <th>Has started</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
+<a href="/create_event">Create new event</a>
 
-  <tbody>
-    <% @events.each do |event| %>
-      <tr>
-        <td><%= event.start_date %></td>
-        <td><%= event.end_date %></td>
-        <td><%= event.status %></td>
-        <td><%= event.money_limit %></td>
-        <td><%= event.host_id %></td>
-        <td><%= event.has_started %></td>
-        <td><%= link_to 'Show', event %></td>
-        <td><%= link_to 'Edit', edit_event_path(event) %></td>
-        <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Event', new_event_path %>
+<a href="/events/show_events">List your events</a>

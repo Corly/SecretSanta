@@ -3,6 +3,7 @@ SecretSanta::Application.routes.draw do
 	get '/event/:event_hash/join_event', to: 'events#join_event'
 	get '/event/:event_hash/start_event', to: 'events#start_event'
 	get '/event/:event_hash/stop_event', to: 'events#stop_event'
+	get '/events/show_events', to: 'events#show_events'
 
 	get '/user/log_out', to: 'users#log_out'
 
@@ -17,7 +18,7 @@ SecretSanta::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'events#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

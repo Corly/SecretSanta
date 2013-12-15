@@ -5,19 +5,24 @@ class EventsController < ApplicationController
 		@event = Event.find(session[:event_id])
 	end
 
-
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+		if session[:user_id] == nil
+			redirect_to "/auth/facebook/callback"	
+		end
   end
+
+	def show_events
+		@events = User.find(session[:user_id]).events
+	end
 
   # GET /events/1
   # GET /events/1.json
   def show
 		@event = Event.find_by_event_hash(params[:event_hash])
 		session[:event_id] = @event.id
-		if (session[:user_id] != nil) 
+		if (session[:user_id] == nil) 
 			#render==redirect login page
 			#save url
 		else 
