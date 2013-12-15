@@ -3,6 +3,7 @@ SecretSanta::Application.routes.draw do
 	get '/event/:event_hash/join_event', to: 'events#join_event'
 	get '/event/:event_hash/start_event', to: 'events#start_event'
 	get '/event/:event_hash/stop_event', to: 'events#stop_event'
+	get '/event/:event_hash/edit', to: 'events#edit'
 	get '/events', to: 'events#show_events'
 
 	get '/user/log_out', to: 'users#log_out'

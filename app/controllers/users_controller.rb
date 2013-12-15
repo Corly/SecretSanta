@@ -56,8 +56,9 @@ class UsersController < ApplicationController
 	def create_new_event
 		@user = User.find(session[:user_id])
 		hash = SecureRandom.hex(8)
-		@user.events.create({ :event_hash => hash, :status => "created", :start_date => Time.now, :end_date => nil, :money_limit => 0, :host_id => @user.id, :has_started => false})
-		redirect_to "/event/" + hash
+		@event = @user.events.create({ :event_hash => hash, :status => "created", :start_date => Time.now, :end_date => nil, :money_limit => 0, :host_id => @user.id, :has_started => false})
+		session[:event_id] = @event.id
+		redirect_to "/event/" + hash + "/edit"
 #		session[:user_id] suuper! :)	
 	end
 

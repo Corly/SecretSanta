@@ -76,6 +76,7 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
+		@event = Event.find(session[:event_id])
   end
 
   # POST /events

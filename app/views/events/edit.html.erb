@@ -1,6 +1,12 @@
-<h1>Editing event</h1>
+<h1>Event details</h1>
 
-<%= render 'form' %>
+<%= form_for(@event) do |f| %>
+	<%= f.label :name %>
+	<%= f.text_field :name %>
 
-<%= link_to 'Show', @event %> |
-<%= link_to 'Back', events_path %>
+	<%= f.label :money_limit %>
+	<%= f.number_field :money_limit %>
+
+	<%= f.submit %>
+
+<% end %>
