@@ -31,4 +31,18 @@
   <%= @event.has_started %>
 </p>
 
+<ul>
+    <% @participants.each do |p| %>
+        <li><%= p.name %></li>
+    <% end %>
+</ul>
+
 <a class="pure-button" href="/event/<%= @event.event_hash %>/start_event">Start event</a>
+
+<% unless @participants.include? @current_user %>
+    <a class="pure-button" href="/event/<%= @event.event_hash %>/join_event">Join event</a>
+<% end %>
+
+<p>
+    Currently logged in: <%= @current_user.name %>
+</p>
