@@ -37,12 +37,14 @@ class EventsController < ApplicationController
 		end
 
 		@current_user = User.find(session[:user_id])
-		if ( UserToEvent.where("event_id = ? AND user_id = ?", session[:event_id], session[:user_id]).first.receiver_id != nil )
+		if ( Event.find(session[:event_id]).has_started) 
 			@receiver = User.find(UserToEvent.where("event_id = ? AND user_id = ?", session[:event_id], session[:user_id]).first.receiver_id)
 		end
   end
 
 	def join_event
+		puts session[:user_id].inspect
+		puts "===================="
 		unless Event.find(session[:event_id]).users.include?(User.find(session[:user_id]))
 			UserToEvent.create({ :user_id => session[:user_id], :event_id => session[:event_id]})
 			redirect_to "/event/" + Event.find(session[:event_id]).event_hash
@@ -57,6 +59,9 @@ class EventsController < ApplicationController
 			UserToEvent.where("event_id = ? AND user_id = ?", session[:event_id], id1).first.update_attributes(:receiver_id => id2)
 		end
 #last person give present to first
+		puts @users.last.inspect
+		puts session[:event_id]
+		puts "================"
 		UserToEvent.where("event_id = ? AND user_id = ?", session[:event_id], @users.last).first.update_attributes(:receiver_id => @users.first)
 		Event.find(session[:event_id]).update_attributes(:has_started => true, :status => "started")
 #redirect to ceva?

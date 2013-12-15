@@ -45,7 +45,7 @@ class UsersController < ApplicationController
 			session[:user_id] = @user.id
 			redirect_to session[:url]
 		else
-			session[:user_id] = User.find(:first, :conditions => ["uid = ?", uid])
+			session[:user_id] = User.find(:first, :conditions => ["uid = ?", uid]).id
 			redirect_to session[:url]
 # give something back
 		end
