@@ -8,8 +8,9 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
+		session[:url] = '/'
 		if session[:user_id] == nil
-			redirect_to "/auth/facebook/callback"	
+			redirect_to "/auth/facebook"	
 		end
   end
 

@@ -43,10 +43,10 @@ class UsersController < ApplicationController
 		if (User.where("uid = ?", uid).empty?)
 			@user = User.create({:email => email, :auth_token => auth_token, :uid => uid, :name => name})
 			session[:user_id] = @user.id
-			redirect_to "/users"
+			redirect_to session[:url]
 		else
 			session[:user_id] = User.find(:first, :conditions => ["uid = ?", uid])
-			redirect_to "/users"
+			redirect_to session[:url]
 # give something back
 		end
 
