@@ -11,3 +11,61 @@
 #buttons {
     margin-top: 25px;
 }
+
+#edit_content {
+    margin: 0 auto;
+    text-align center;
+    width: 400px;
+    margin-top: 40px;
+}
+
+#form_box {
+    padding: 50px;
+    background-color: #eee;
+    border-radius: 5px;
+}
+
+#event_content {
+    margin: 0 auto;
+    margin-top: 50px;
+    width: 300px;
+}
+
+#event_content p {
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+#event_content a {
+    margin-top: 4px;
+    margin-bottom: 2px;
+}
+
+#event_details, #join_box, #receiver_box {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #eee;
+    border-radius: 5px;
+}
+
+#join_box {
+    background-color: #bbff99;
+}
+
+#receiver_box {
+    background-color: #ffeeaa;
+}
+
+#list_content {
+    margin: 0 auto;
+    margin-top: 50px;
+    width: 400px;
+}
+
+#list_content table {
+    width: 400px;
+}
+
+#list_content > img {
+    width: 100%;
+}

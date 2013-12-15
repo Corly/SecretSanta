@@ -1,52 +1,50 @@
-<!--
-<p>
-  <strong>Start date:</strong>
-  <%= @event.start_date %>
-</p>
+<div id="event_content">
+    <h1><%= @event.name %></h1>
+    <p>
+    Organized by <strong><%= User.find(@event.host_id).name %></strong>.
+    </p>
 
-<p>
-  <strong>End date:</strong>
-  <%= @event.end_date %>
-</p>
+    <div id="event_details">
+        <p>Recommended gift price is <strong><%= @event.money_limit %>€</strong>.</p>
 
-<p>
-  <strong>Status:</strong>
-  <%= @event.status %>
-</p>
+        <table class="pure-table">
+            <thead>
+                <tr>
+                    <th>People currently attending</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% @participants.each do |p| %>
+                <tr><td><%= p.name %></td></tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
 
--->
-
-<p>
-  Recommended gift price is <%= @event.money_limit %>€
-</p>
-
-<p>
-  Organized by <%= User.find(@event.host_id).name %>
-</p>
-
-<p>
-  <strong>Has started:</strong>
-  <%= @event.has_started %>
-</p>
-
-<ul>
-    <% @participants.each do |p| %>
-        <li><%= p.name %></li>
+    <% if @event.has_started %>
+        <div id="receiver_box">
+            <p>You have to give a present to <strong><%= @receiver.name %></strong>.</p>
+        </div>
+    <% else %>
+        <div id="join_box">
+            <% unless @participants.include? @current_user %>
+                <p>You are not part of this event yet.</p>
+                <a class="pure-button pure-button-primary" href="/event/<%= @event.event_hash %>/join_event">Join event</a>
+            <% else %>
+                <p>You have joined this event.</p>
+            <% end %>
+        </div>
     <% end %>
-</ul>
 
-<% if not @event.has_started and @current_user.id == @event.host_id %>
-    <a class="pure-button" href="/event/<%= @event.event_hash %>/start_event">Start event</a>
-<% end %>
+    <% if not @event.has_started and @current_user.id == @event.host_id %>
+        <div id="join_box">
+            <p>You are the organizer of this event.</p>
+            <a class="pure-button pure-button-primary" href="/event/<%= @event.event_hash %>/start_event">Start event</a>
+            <a class="pure-button pure-button-primary" href="/event/<%= @event.event_hash %>/edit">Edit event</a>
+        </div>
+    <% end %>
 
-<% unless @participants.include? @current_user %>
-    <a class="pure-button" href="/event/<%= @event.event_hash %>/join_event">Join event</a>
-<% end %>
-
-<% if @event.has_started %>
-    <p>Receiver: <%= @receiver.name %></p>
-<% end %>
-
-<p>
-    Currently logged in: <%= @current_user.name %>
-</p>
+    <div style="position: absolute; top: 5px; right: 5px">
+        Currently logged in: <strong><%= @current_user.name %></strong>
+    </div>
+</div>

@@ -1,14 +1,21 @@
-<h1>Event details</h1>
+<div id="edit_content">
+    <%= image_tag "gift.jpg", id: "gift_img" %>
+    <h2>Setup event details:</h2>
+    <div id="form_box">
+        <%= form_for @event, :html => {:class => "pure-form pure-form-aligned"} do |f| %>
+            <div class="pure-control-group">
+                <%= f.label :name %>
+                <%= f.text_field :name %>
+            </div>
 
-<p> <%= @event.id %> </p>
+            <div class="pure-control-group">
+                <%= f.label "Estimated price" %>
+                <%= f.number_field :money_limit %>
+            </div>
 
-<%= form_for @event do |f| %>
-	<%= f.label :name %>
-	<%= f.text_field :name %>
-
-	<%= f.label :money_limit %>
-	<%= f.number_field :money_limit %>
-
-	<%= f.submit %>
-
-<% end %>
+            <div class="pure-controls">
+                <%= f.submit "Update", class: "pure-button pure-button-primary" %>
+            </div>
+        <% end %>
+    </div>
+</div>

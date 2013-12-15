@@ -1,5 +1,24 @@
-<h1> List of your events </h1>
-
-<% @events.each do |event| %>
-    <a href="/event/<%= event.event_hash %>"><%= event.id %></a>
-<% end %>
+<div id="list_content">
+    <%= image_tag "list_gifts.jpg" %>
+    <h1>Your events:</h1>
+    <table class="pure-table">
+        <thead>
+            <tr>
+                <th>Event</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% @events.each do |event| %>
+            <tr>
+                <td><a href="/event/<%= event.event_hash %>"><%= event.name %></a></td>
+                <% if event.has_started %>
+                    <td style="color: green">Running.</td>
+                <% else %>
+                    <td style="color: #CC9900">Pending...</td>
+                <% end %>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+</div>
