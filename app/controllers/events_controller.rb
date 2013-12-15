@@ -37,7 +37,9 @@ class EventsController < ApplicationController
 		end
 
 		@current_user = User.find(session[:user_id])
-		@receiver = User.find(UserToEvent.where("event_id = ? AND user_id = ?", session[:event_id], session[:user_id]).first.receiver_id)
+		if ( UserToEvent.where("event_id = ? AND user_id = ?", session[:event_id], session[:user_id]).first.receiver_id != nil )
+			@receiver = User.find(UserToEvent.where("event_id = ? AND user_id = ?", session[:event_id], session[:user_id]).first.receiver_id)
+		end
   end
 
 	def join_event
