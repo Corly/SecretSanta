@@ -1,8 +1,14 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
 
-  # GET /events
-  # GET /events.json
+	def render_404
+		render :template => 'error_pages/404.html', :layout => false, :status => :not_found
+	end
+
+	def render_401
+		render :template => 'error_pages/401.html', :layout => false, :status => :not_found
+	end	
+
   def index
 		if session[:url] == nil
 			session[:url] = '/'
@@ -20,19 +26,25 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
-		@event = Event.find_by_event_hash(params[:event_hash])
-		@participants = @event.users
-		session[:event_id] = @event.id
-		if (session[:user_id] == nil) 
-			session[:url] = request.original_url
-			redirect_to '/'
-			return
-			#render==redirect login page
-			#save url
+#TODO if a user which is not part of the event wants to join the event
+#display a page where the users that has joined and a message that the event already started
+		if Event.find_by_event_hash(params[:event_hash]) == nil
+			render_404
 		else
-			@is_host = false
-			if (session[:user_id] == @event.host_id)
-				@is_host = true
+			@event = Event.find_by_event_hash(params[:event_hash])
+			@participants = @event.users
+			session[:event_id] = @event.id
+			if (session[:user_id] == nil) 
+				session[:url] = request.original_url
+				redirect_to '/'
+				return
+				#render==redirect login page
+				#save url
+			else
+				@is_host = false
+				if (session[:user_id] == @event.host_id)
+					@is_host = true
+				end
 			end
 		end
 
@@ -44,9 +56,9 @@ class EventsController < ApplicationController
 		if Event.find(session[:event_id]).status == "finished"
 			@list = {}
 			UserToEvent.where("event_id = ?", session[:event_id]).pluck(:user_id, :receiver_id).each do |pair|
-			user_name = User.where("user_id = ?", pair[0]).name
-			reveiver_name = User.where("user_id = ?", pair[1]).name
-			@list[user_name] = receiver_name
+				user_name = User.where("user_id = ?", pair[0]).name
+				reveiver_name = User.where("user_id = ?", pair[1]).name
+				@list[user_name] = receiver_name
 			end
 		end
   end
@@ -59,32 +71,37 @@ class EventsController < ApplicationController
 	end
 
 	def start_event
-		#s-a terrminat smecheria!
-		@users = UserToEvent.where("event_id = ?", session[:event_id]).pluck(:user_id)
-		@users.shuffle
-		@users.each_cons(2) do |id1, id2|
-			UserToEvent.where("event_id = ? AND user_id = ?", session[:event_id], id1).first.update_attributes(:receiver_id => id2)
+		if Event.find(session[:event_id]).host_id != session[:user_id]
+			render_404
+		else
+			@users = UserToEvent.where("event_id = ?", session[:event_id]).pluck(:user_id)
+			@users.shuffle
+			@users.each_cons(2) do |id1, id2|
+				UserToEvent.where("event_id = ? AND user_id = ?", session[:event_id], id1).first.update_attributes(:receiver_id => id2)
+			end
+	#last person give present to first
+			UserToEvent.where("event_id = ? AND user_id = ?", session[:event_id], @users.last).first.update_attributes(:receiver_id => @users.first)
+			Event.find(session[:event_id]).update_attributes(:has_started => true, :status => "started")
+			redirect_to "/event/" + Event.find(session[:event_id]).event_hash
 		end
-#last person give present to first
-		UserToEvent.where("event_id = ? AND user_id = ?", session[:event_id], @users.last).first.update_attributes(:receiver_id => @users.first)
-		Event.find(session[:event_id]).update_attributes(:has_started => true, :status => "started")
-#redirect to ceva?
-		redirect_to "/event/" + Event.find(session[:event_id]).event_hash
 	end
 
 	def stop_event
-		Event.find(session[:event_id]).update_attributes(:status => "finished")
-		redirect_to "/event/" + Event.find(session[:event_id]).event_hash
+		@event = Event.find(session[:event_id])
+		if session[:user_id] != @event.host_id
+			render_404
+		else
+			@event.update_attributes(:status => "finished")
+			redirect_to "/event/" + @event.event_hash
+		end
 	end	
-
-  # GET /events/new
-  def new
-    @event = Event.new
-  end
 
   # GET /events/1/edit
   def edit
 		@event = Event.find(session[:event_id])
+		if @event.host_id != session[:user_id]
+			render_404
+		end
   end
 
   # POST /events

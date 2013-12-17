@@ -59,7 +59,6 @@ class UsersController < ApplicationController
 		@event = @user.events.create({ :event_hash => hash, :status => "created", :start_date => Time.now, :end_date => nil, :money_limit => 0, :host_id => @user.id, :has_started => false})
 		session[:event_id] = @event.id
 		redirect_to "/event/" + hash + "/edit"
-#		session[:user_id] suuper! :)	
 	end
 
   # POST /users
@@ -80,7 +79,7 @@ class UsersController < ApplicationController
 
 	def log_out
 		session[:user_id] = nil
-		redirect_to "/users"
+		redirect_to "/"
 	end
 
   # PATCH/PUT /users/1
